@@ -21,7 +21,7 @@ public class ProductRepositoryTest {
     @Test
     public void testAdd(){
         Product p = new Product();
-        p.setName("Samsungg1");
+        p.setName("Samsungg123");
         p.setPrice(168.9f);
         p.setQuantity(50);
         p.setStatus("active");
@@ -66,7 +66,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testDelete(){
-        Integer productID = 14;
+        Integer productID = 17;
         repo.deleteById(productID);
 
         Optional<Product> optionalProduct = repo.findById(productID);

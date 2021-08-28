@@ -79,7 +79,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/details/{id}")
-    public String productDetails(@PathVariable("id") Integer id, Model model, RedirectAttributes ra){
+    public String productDetails(@PathVariable("id") Integer id, Model model){
         try {
             Product p = service.get(id);
             model.addAttribute("product", p);
