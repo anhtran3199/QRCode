@@ -48,8 +48,6 @@ public class ProductController {
     @GetMapping("/products/add")
     public String addNewProduct(Model model){
         Product product = new Product();
-        product.setCorrectionLevel("M");
-        product.setImg("");
         model.addAttribute("product",product);
         return "add";
     }
