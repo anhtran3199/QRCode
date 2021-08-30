@@ -1,5 +1,7 @@
 package com.myapp.qrcodeapp.entities;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +19,26 @@ public class Product {
     private int quantity;
     @Column
     private String status;
+    @Column()
+    private String correctionLevel = "M";
+    @Column
+    private String img;
 
+    public String getCorrectionLevel() {
+        return correctionLevel;
+    }
+
+    public void setCorrectionLevel(String correctionLevel) {
+        this.correctionLevel = correctionLevel;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public Integer getId() {
         return id;

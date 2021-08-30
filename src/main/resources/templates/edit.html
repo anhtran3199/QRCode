@@ -101,6 +101,19 @@
                                     Hết hàng
                                 </label>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label font-weight-bold">Mức sửa lỗi</label>
+                                <select class="form-select" aria-label="Default select example" th:field="*{correctionLevel}">
+                                    <option th:value="L">L</option>
+                                    <option th:value="M">M</option>
+                                    <option th:value="Q">Q</option>
+                                    <option th:value="H">H</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label th:for="fileurl">Chọn ảnh</label><br>
+                                <input th:type="file" class="form-control-file" id="fileurl" name="fileurl" accept="image/png, image/jpeg" th:field="*{img}">
+                            </div>
                         </div>
 
                         <div class="form-group mt-3">

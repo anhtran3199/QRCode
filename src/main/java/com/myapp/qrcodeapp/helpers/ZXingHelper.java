@@ -8,6 +8,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.myapp.qrcodeapp.entities.Product;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,10 +24,26 @@ import java.util.Map;
 
 public class ZXingHelper {
 
-	public static byte[] getQRCodeImage(String text, int width, int height) throws IOException, WriterException {
+	public static byte[] getQRCodeImage(String text, int width, int height, String correctionLevel, String img) throws IOException, WriterException {
 			// Tùy chỉnh mức sửa lỗi của mã
 			Map<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<>();
-			hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M); //H:30% | Q:25% | M:15% | L: 7%
+			switch (correctionLevel){
+				case "L":
+					hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L); //H:30% | Q:25% | M:15% | L: 7%
+					break;
+				case "M":
+					hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M); //H:30% | Q:25% | M:15% | L: 7%
+					break;
+				case "Q":
+					hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q); //H:30% | Q:25% | M:15% | L: 7%
+					break;
+				case "H":
+					hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H); //H:30% | Q:25% | M:15% | L: 7%
+					break;
+				default:
+					hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M); //H:30% | Q:25% | M:15% | L: 7%
+					break;
+			}
 
 			BitMatrix bitMatrix = new QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
 
@@ -34,7 +51,13 @@ public class ZXingHelper {
 			BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, new MatrixToImageConfig());
 
 			// Load logo image
-			BufferedImage overlay = ImageIO.read(new File("src/main/resources/static/logo/Logo_20x20.jpg"));
+			BufferedImage overlay;
+			if(img.equals("")){
+				overlay = ImageIO.read(new File("src/main/resources/static/logo/Logo_20x20.jpg"));
+			} else{
+				overlay = ImageIO.read(new File(img));
+			}
+
 			// Calculate the delta height and width between QR code and logo
 			int deltaHeight = qrImage.getHeight() - overlay.getHeight();
 			int deltaWidth = qrImage.getWidth() - overlay.getWidth();

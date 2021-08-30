@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void save(Product p) {
+        p.setImg("");
         repo.save(p);
     }
 

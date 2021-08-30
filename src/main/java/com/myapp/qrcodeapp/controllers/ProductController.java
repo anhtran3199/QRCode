@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.util.List;
@@ -29,10 +31,15 @@ public class ProductController {
     }
 
     @RequestMapping(value = "qrcode/{id}", method = RequestMethod.GET)
-    public void qrcode(@PathVariable("id") String id, HttpServletResponse response) throws Exception {
+    public void qrcode(@PathVariable("id") Integer id, HttpServletResponse response, Model model) throws Exception {
+        Product product = service.get(id);
+
+        model.addAttribute("product", product);
+//        System.out.println(product.getCorrectionLevel() +" "+product.getImg());
         response.setContentType("image/png");
         OutputStream outputStream = response.getOutputStream();
-        outputStream.write(ZXingHelper.getQRCodeImage("localhost:8080/products/details/"+id, 200, 200));
+        outputStream.write(ZXingHelper.getQRCodeImage("localhost:8080/products/details/"+id, 200, 200, product.getCorrectionLevel(), product.getImg()));
+
         outputStream.flush();
         outputStream.close();
     }
@@ -40,7 +47,10 @@ public class ProductController {
 
     @GetMapping("/products/add")
     public String addNewProduct(Model model){
-        model.addAttribute("product", new Product());
+        Product product = new Product();
+        product.setCorrectionLevel("M");
+        product.setImg("");
+        model.addAttribute("product",product);
         return "add";
     }
 
